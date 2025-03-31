@@ -1,27 +1,34 @@
-// import 'package:riverpod_annotation/riverpod_annotation.dart';
-// import '../../core/constants/preferences.dart';
-// import '../../core/settings/shared_preference.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dio/dio.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'login_provider.g.dart';
 
-// part 'login_provider.g.dart';
+@riverpod
+class LoginNotifier extends _$LoginNotifier {
+  @override
+  AsyncValue<void> build() {
+    // Initial state is data (i.e. idle)
+    return const AsyncData(null);
+  }
 
-// @riverpod
-// class Login extends _$Login {
-//   @override
-//   Future<bool> build() async {
-//     // Return the initial state based on preferences (or default to false)
-//     return false; // Default state is false (not logged in)
-//   }
+  /// Call this method to perform the login request.
+  Future<void> login(String email, String password) async {
+    // Set the state to loading so the UI can show a spinner.
+    state = const AsyncLoading();
+    try {
+      // Replace with your actual API endpoint.
+      final response = await Dio().post(
+        'https://example.com/api/login',
+        data: {'email': email, 'password': password},
+      );
 
-//   Future<void> login() async {
-//     state = AsyncValue.data(true); // Change state to true when logged in
-//   }
+      // If needed, process the response (e.g. save token, update user state, etc.)
 
-//   Future<void> logout() async {
-//     state = AsyncValue.data(false); // Change state to false when logged out
-//     // Call _clear to remove any relevant data or preferences
-//     // _clear();
-//   }
-
-//   bool get isLoading => state is AsyncLoading; // Check if loading
-// }
-//lsdfkjslfdkjsfldkj
+      // Set state to data when finished.
+      state = const AsyncData(null);
+    } catch (e, st) {
+      // Set the error state if something goes wrong.
+      state = AsyncError(e, st);
+    }
+  }
+}

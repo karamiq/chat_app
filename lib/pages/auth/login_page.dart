@@ -110,8 +110,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final _authState = ref.watch(loginProvider);
-    // _authState.
+    // final loginState = ref.watch(loginNotifierProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
@@ -213,6 +213,25 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
 
                 const Gap(24),
+                // ElevatedButton(
+                //   onPressed:
+                //       loginState is AsyncLoading
+                //           ? null
+                //           : () {
+                //             // Trigger your login action here.
+                //           },
+                //   child:
+                //       loginState is AsyncLoading
+                //           ? const SizedBox(
+                //             width: 20,
+                //             height: 20,
+                //             child: CircularProgressIndicator(
+                //               strokeWidth: 2,
+                //               color: Colors.white,
+                //             ),
+                //           )
+                //           : const Text('Login'),
+                // ),
 
                 // Login button
                 // SizedBox(
