@@ -1,9 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-const freezedResponse = Freezed(
-  toJson: true,
-  fromJson: true,
-);
+const freezedResponse = Freezed(toJson: true, fromJson: true);
 
 const freezedResponseGeneric = Freezed(
   toJson: false,
@@ -19,10 +16,7 @@ const freezedUnionResponse = Freezed(
   fallbackUnion: null,
 );
 
-const freezedRequest = Freezed(
-  toJson: true,
-  fromJson: false,
-);
+const freezedRequest = Freezed(toJson: true, fromJson: false);
 
 const freezedUnionRequest = Freezed(
   toJson: true,

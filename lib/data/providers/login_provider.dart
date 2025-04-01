@@ -1,29 +1,17 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dio/dio.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_state/riverpod_state.dart';
+
 part 'login_provider.g.dart';
 
-/// Define your API endpoint
-const String apiUrl = "https://jsonplaceholder.typicode.com/posts";
+@riverpod
+class Login extends _$Login with AsyncXNotifierMixin<dynamic> {
+  @override
+  Future<AsyncX<dynamic>> build() => idle();
 
-/// StateNotifier to handle API requests
-class PostsNotifier
-    extends StateNotifier<AsyncValue<List<Map<String, dynamic>>>> {
-  PostsNotifier() : super(const AsyncValue.loading());
-
-  /// Fetch posts from API
-  Future<void> fetchPosts() async {
-    try {
-      state = const AsyncValue.loading(); // Set loading state
-      final response = await Dio().get(apiUrl);
-      state = AsyncValue.data(List<Map<String, dynamic>>.from(response.data));
-    } catch (e, stackTrace) {
-      state = AsyncValue.error(e, stackTrace); // Handle error
-    }
-  }
+  @useResult
+  RunXCallback<dynamic> run(String phoneNumber) => handle(() async {
+        await Future.delayed(const Duration(seconds: 2));
+        return null;
+      });
 }
-
-/// Provider for the StateNotifier
-final postsProvider = StateNotifierProvider<
-  PostsNotifier,
-  AsyncValue<List<Map<String, dynamic>>>
->((ref) => PostsNotifier());

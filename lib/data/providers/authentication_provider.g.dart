@@ -12,15 +12,14 @@ String _$authenticationHash() => r'80c88f6c9d83d29005f9d2e90fc75816b4d05d4f';
 @ProviderFor(Authentication)
 final authenticationProvider =
     AutoDisposeNotifierProvider<Authentication, AuthenticationModel?>.internal(
-      Authentication.new,
-      name: r'authenticationProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$authenticationHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  Authentication.new,
+  name: r'authenticationProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$authenticationHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$Authentication = AutoDisposeNotifier<AuthenticationModel?>;
 // ignore_for_file: type=lint

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,143 +10,29 @@ part of 'settings.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
-Settings _$SettingsFromJson(Map<String, dynamic> json) {
-  return _Settings.fromJson(json);
-}
 
 /// @nodoc
 mixin _$Settings {
-  ThemeMode get themeMode => throw _privateConstructorUsedError;
-  String get languageCode => throw _privateConstructorUsedError;
-
-  /// Serializes this Settings to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  ThemeMode get themeMode;
+  String get languageCode;
 
   /// Create a copy of Settings
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $SettingsCopyWith<Settings> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$SettingsCopyWithImpl<Settings>(this as Settings, _$identity);
 
-/// @nodoc
-abstract class $SettingsCopyWith<$Res> {
-  factory $SettingsCopyWith(Settings value, $Res Function(Settings) then) =
-      _$SettingsCopyWithImpl<$Res, Settings>;
-  @useResult
-  $Res call({ThemeMode themeMode, String languageCode});
-}
-
-/// @nodoc
-class _$SettingsCopyWithImpl<$Res, $Val extends Settings>
-    implements $SettingsCopyWith<$Res> {
-  _$SettingsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Settings
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? themeMode = null, Object? languageCode = null}) {
-    return _then(
-      _value.copyWith(
-            themeMode:
-                null == themeMode
-                    ? _value.themeMode
-                    : themeMode // ignore: cast_nullable_to_non_nullable
-                        as ThemeMode,
-            languageCode:
-                null == languageCode
-                    ? _value.languageCode
-                    : languageCode // ignore: cast_nullable_to_non_nullable
-                        as String,
-          )
-          as $Val,
-    );
-  }
-}
-
-/// @nodoc
-abstract class _$$SettingsImplCopyWith<$Res>
-    implements $SettingsCopyWith<$Res> {
-  factory _$$SettingsImplCopyWith(
-    _$SettingsImpl value,
-    $Res Function(_$SettingsImpl) then,
-  ) = __$$SettingsImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({ThemeMode themeMode, String languageCode});
-}
-
-/// @nodoc
-class __$$SettingsImplCopyWithImpl<$Res>
-    extends _$SettingsCopyWithImpl<$Res, _$SettingsImpl>
-    implements _$$SettingsImplCopyWith<$Res> {
-  __$$SettingsImplCopyWithImpl(
-    _$SettingsImpl _value,
-    $Res Function(_$SettingsImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of Settings
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? themeMode = null, Object? languageCode = null}) {
-    return _then(
-      _$SettingsImpl(
-        themeMode:
-            null == themeMode
-                ? _value.themeMode
-                : themeMode // ignore: cast_nullable_to_non_nullable
-                    as ThemeMode,
-        languageCode:
-            null == languageCode
-                ? _value.languageCode
-                : languageCode // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$SettingsImpl extends _Settings {
-  const _$SettingsImpl({
-    this.themeMode = ThemeMode.system,
-    this.languageCode = 'en',
-  }) : super._();
-
-  factory _$SettingsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SettingsImplFromJson(json);
-
-  @override
-  @JsonKey()
-  final ThemeMode themeMode;
-  @override
-  @JsonKey()
-  final String languageCode;
-
-  @override
-  String toString() {
-    return 'Settings(themeMode: $themeMode, languageCode: $languageCode)';
-  }
+  /// Serializes this Settings to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SettingsImpl &&
+            other is Settings &&
             (identical(other.themeMode, themeMode) ||
                 other.themeMode == themeMode) &&
             (identical(other.languageCode, languageCode) ||
@@ -156,39 +43,135 @@ class _$SettingsImpl extends _Settings {
   @override
   int get hashCode => Object.hash(runtimeType, themeMode, languageCode);
 
-  /// Create a copy of Settings
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SettingsImplCopyWith<_$SettingsImpl> get copyWith =>
-      __$$SettingsImplCopyWithImpl<_$SettingsImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SettingsImplToJson(this);
+  String toString() {
+    return 'Settings(themeMode: $themeMode, languageCode: $languageCode)';
   }
 }
 
-abstract class _Settings extends Settings {
-  const factory _Settings({
-    final ThemeMode themeMode,
-    final String languageCode,
-  }) = _$SettingsImpl;
-  const _Settings._() : super._();
+/// @nodoc
+abstract mixin class $SettingsCopyWith<$Res> {
+  factory $SettingsCopyWith(Settings value, $Res Function(Settings) _then) =
+      _$SettingsCopyWithImpl;
+  @useResult
+  $Res call({ThemeMode themeMode, String languageCode});
+}
 
-  factory _Settings.fromJson(Map<String, dynamic> json) =
-      _$SettingsImpl.fromJson;
+/// @nodoc
+class _$SettingsCopyWithImpl<$Res> implements $SettingsCopyWith<$Res> {
+  _$SettingsCopyWithImpl(this._self, this._then);
+
+  final Settings _self;
+  final $Res Function(Settings) _then;
+
+  /// Create a copy of Settings
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? themeMode = null,
+    Object? languageCode = null,
+  }) {
+    return _then(_self.copyWith(
+      themeMode: null == themeMode
+          ? _self.themeMode
+          : themeMode // ignore: cast_nullable_to_non_nullable
+              as ThemeMode,
+      languageCode: null == languageCode
+          ? _self.languageCode
+          : languageCode // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _Settings extends Settings {
+  const _Settings({this.themeMode = ThemeMode.system, this.languageCode = 'en'})
+      : super._();
+  factory _Settings.fromJson(Map<String, dynamic> json) =>
+      _$SettingsFromJson(json);
 
   @override
-  ThemeMode get themeMode;
+  @JsonKey()
+  final ThemeMode themeMode;
   @override
-  String get languageCode;
+  @JsonKey()
+  final String languageCode;
 
   /// Create a copy of Settings
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SettingsImplCopyWith<_$SettingsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$SettingsCopyWith<_Settings> get copyWith =>
+      __$SettingsCopyWithImpl<_Settings>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SettingsToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Settings &&
+            (identical(other.themeMode, themeMode) ||
+                other.themeMode == themeMode) &&
+            (identical(other.languageCode, languageCode) ||
+                other.languageCode == languageCode));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, themeMode, languageCode);
+
+  @override
+  String toString() {
+    return 'Settings(themeMode: $themeMode, languageCode: $languageCode)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$SettingsCopyWith<$Res>
+    implements $SettingsCopyWith<$Res> {
+  factory _$SettingsCopyWith(_Settings value, $Res Function(_Settings) _then) =
+      __$SettingsCopyWithImpl;
+  @override
+  @useResult
+  $Res call({ThemeMode themeMode, String languageCode});
+}
+
+/// @nodoc
+class __$SettingsCopyWithImpl<$Res> implements _$SettingsCopyWith<$Res> {
+  __$SettingsCopyWithImpl(this._self, this._then);
+
+  final _Settings _self;
+  final $Res Function(_Settings) _then;
+
+  /// Create a copy of Settings
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? themeMode = null,
+    Object? languageCode = null,
+  }) {
+    return _then(_Settings(
+      themeMode: null == themeMode
+          ? _self.themeMode
+          : themeMode // ignore: cast_nullable_to_non_nullable
+              as ThemeMode,
+      languageCode: null == languageCode
+          ? _self.languageCode
+          : languageCode // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+// dart format on

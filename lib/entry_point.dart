@@ -21,7 +21,7 @@ class EntryPoint extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
-              backgroundColor: context.colorScheme.background,
+              backgroundColor: context.colorScheme.surface,
               radius: 20,
               backgroundImage: AssetImage(Assets.assetsImagesUserLogo),
             ),

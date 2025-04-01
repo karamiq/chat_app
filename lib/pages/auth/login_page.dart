@@ -1,6 +1,6 @@
 import 'package:app/core/utils/custom_text_feileds.dart/auth_text_form_feild.dart';
 import 'package:app/core/utils/decoration/auth_decoration.dart';
-import 'package:app/services/location/location.dart';
+import 'package:app/data/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,18 +9,7 @@ import 'package:lottie/lottie.dart';
 import 'package:app/core/constants/assets.dart';
 import 'package:app/core/constants/sizes.dart';
 import 'package:app/core/utils/validators/validators.dart';
-
-// class PhoneAuthState {
-//   final bool isLoading;
-//   final String? errorMessage;
-//   final bool isSuccess;
-
-//   PhoneAuthState({
-//     this.isLoading = false,
-//     this.errorMessage,
-//     this.isSuccess = false,
-//   });
-// }
+import 'package:riverpod_state/src/state.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -110,7 +99,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final loginState = ref.watch(loginNotifierProvider);
+    final loginState = ref.watch(loginProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -152,86 +141,57 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 const Gap(32),
 
                 // Country selector
-                GestureDetector(
-                  onTap: _pickCountry,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.outline.withOpacity(0.5),
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              _selectedCountry.flagEmoji,
-                              style: const TextStyle(fontSize: 22),
-                            ),
-                            const Gap(8),
-                            Text(
-                              '+${_selectedCountry.phoneCode}',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const Icon(Icons.arrow_drop_down),
-                      ],
-                    ),
-                  ),
-                ),
-
                 const Gap(16),
 
                 // Phone number input
-                AuthFormField(
-                  controller: _phoneNumberController,
-                  keyboardType: TextInputType.phone,
-                  decoration: authDecoration(
-                    context,
-                    hintText: 'Phone number',
-                    labelText: 'Phone number',
-                    prefixIcon: const Icon(Icons.phone),
-                  ),
-                  rules: [
-                    RequiredRule(),
-                    MinLengthRule(9),
-                    MaxLengthRule(12),
-                    RegexRule(r'^\d+$'),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        onTap: _pickCountry,
+                        readOnly: true,
+                        controller: TextEditingController(
+                          text:
+                              '${_selectedCountry.flagEmoji} +${_selectedCountry.phoneCode}',
+                        ),
+                        decoration: authDecoration(context),
+                      ),
+                    ),
+                    const Gap(16),
+                    Expanded(
+                      flex: 3,
+                      child: AuthFormField(
+                        controller: _phoneNumberController,
+                        keyboardType: TextInputType.phone,
+                        decoration: authDecoration(
+                          context,
+                          hintText: 'Phone number',
+                          labelText: 'Phone number',
+                          prefixIcon: const Icon(Icons.phone),
+                        ),
+                        rules: [
+                          RequiredRule(),
+                          MinLengthRule(9),
+                          MaxLengthRule(12),
+                          RegexRule(r'^\d+$'),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
 
                 const Gap(24),
-                // ElevatedButton(
-                //   onPressed:
-                //       loginState is AsyncLoading
-                //           ? null
-                //           : () {
-                //             // Trigger your login action here.
-                //           },
-                //   child:
-                //       loginState is AsyncLoading
-                //           ? const SizedBox(
-                //             width: 20,
-                //             height: 20,
-                //             child: CircularProgressIndicator(
-                //               strokeWidth: 2,
-                //               color: Colors.white,
-                //             ),
-                //           )
-                //           : const Text('Login'),
-                // ),
+                LoadingButton(
+                  onPressed: () async {
+                    await ref
+                        .read(loginProvider.notifier)
+                        .run(
+                          _phoneNumberController.text.trim(),
+                        )
+                        .whenComplete(() {});
+                  },
+                  child: const Text('Login'),
+                ),
 
                 // Login button
                 // SizedBox(
@@ -268,6 +228,47 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class LoadingButton extends StatelessWidget {
+  const LoadingButton({
+    super.key,
+    required this.child,
+    required this.onPressed,
+  });
+
+  final Widget child;
+  final Future<void> Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    ValueNotifier<bool> isLoading = ValueNotifier(false);
+
+    return ElevatedButton(
+      onPressed: () async {
+        if (onPressed == null) return;
+
+        isLoading.value = true;
+        await onPressed!(); // Wait for the function to complete
+        isLoading.value = false;
+      },
+      child: ValueListenableBuilder<bool>(
+        valueListenable: isLoading,
+        builder: (_, value, __) {
+          return value
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+              : child;
+        },
       ),
     );
   }

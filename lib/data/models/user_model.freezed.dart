@@ -4,7 +4,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'authentication_model.dart';
+part of 'user_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,26 +14,25 @@ part of 'authentication_model.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$AuthenticationModel {
+mixin _$UserModel {
   String get token;
   String get refreshToken;
 
-  /// Create a copy of AuthenticationModel
+  /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $AuthenticationModelCopyWith<AuthenticationModel> get copyWith =>
-      _$AuthenticationModelCopyWithImpl<AuthenticationModel>(
-          this as AuthenticationModel, _$identity);
+  $UserModelCopyWith<UserModel> get copyWith =>
+      _$UserModelCopyWithImpl<UserModel>(this as UserModel, _$identity);
 
-  /// Serializes this AuthenticationModel to a JSON map.
+  /// Serializes this UserModel to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is AuthenticationModel &&
+            other is UserModel &&
             (identical(other.token, token) || other.token == token) &&
             (identical(other.refreshToken, refreshToken) ||
                 other.refreshToken == refreshToken));
@@ -45,28 +44,26 @@ mixin _$AuthenticationModel {
 
   @override
   String toString() {
-    return 'AuthenticationModel(token: $token, refreshToken: $refreshToken)';
+    return 'UserModel(token: $token, refreshToken: $refreshToken)';
   }
 }
 
 /// @nodoc
-abstract mixin class $AuthenticationModelCopyWith<$Res> {
-  factory $AuthenticationModelCopyWith(
-          AuthenticationModel value, $Res Function(AuthenticationModel) _then) =
-      _$AuthenticationModelCopyWithImpl;
+abstract mixin class $UserModelCopyWith<$Res> {
+  factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) _then) =
+      _$UserModelCopyWithImpl;
   @useResult
   $Res call({String token, String refreshToken});
 }
 
 /// @nodoc
-class _$AuthenticationModelCopyWithImpl<$Res>
-    implements $AuthenticationModelCopyWith<$Res> {
-  _$AuthenticationModelCopyWithImpl(this._self, this._then);
+class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
+  _$UserModelCopyWithImpl(this._self, this._then);
 
-  final AuthenticationModel _self;
-  final $Res Function(AuthenticationModel) _then;
+  final UserModel _self;
+  final $Res Function(UserModel) _then;
 
-  /// Create a copy of AuthenticationModel
+  /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -89,29 +86,28 @@ class _$AuthenticationModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _AuthenticationModel extends AuthenticationModel {
-  const _AuthenticationModel({required this.token, required this.refreshToken})
+class _UserModel extends UserModel {
+  const _UserModel({required this.token, required this.refreshToken})
       : super._();
-  factory _AuthenticationModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthenticationModelFromJson(json);
+  factory _UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
 
   @override
   final String token;
   @override
   final String refreshToken;
 
-  /// Create a copy of AuthenticationModel
+  /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$AuthenticationModelCopyWith<_AuthenticationModel> get copyWith =>
-      __$AuthenticationModelCopyWithImpl<_AuthenticationModel>(
-          this, _$identity);
+  _$UserModelCopyWith<_UserModel> get copyWith =>
+      __$UserModelCopyWithImpl<_UserModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$AuthenticationModelToJson(
+    return _$UserModelToJson(
       this,
     );
   }
@@ -120,7 +116,7 @@ class _AuthenticationModel extends AuthenticationModel {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _AuthenticationModel &&
+            other is _UserModel &&
             (identical(other.token, token) || other.token == token) &&
             (identical(other.refreshToken, refreshToken) ||
                 other.refreshToken == refreshToken));
@@ -132,30 +128,29 @@ class _AuthenticationModel extends AuthenticationModel {
 
   @override
   String toString() {
-    return 'AuthenticationModel(token: $token, refreshToken: $refreshToken)';
+    return 'UserModel(token: $token, refreshToken: $refreshToken)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$AuthenticationModelCopyWith<$Res>
-    implements $AuthenticationModelCopyWith<$Res> {
-  factory _$AuthenticationModelCopyWith(_AuthenticationModel value,
-          $Res Function(_AuthenticationModel) _then) =
-      __$AuthenticationModelCopyWithImpl;
+abstract mixin class _$UserModelCopyWith<$Res>
+    implements $UserModelCopyWith<$Res> {
+  factory _$UserModelCopyWith(
+          _UserModel value, $Res Function(_UserModel) _then) =
+      __$UserModelCopyWithImpl;
   @override
   @useResult
   $Res call({String token, String refreshToken});
 }
 
 /// @nodoc
-class __$AuthenticationModelCopyWithImpl<$Res>
-    implements _$AuthenticationModelCopyWith<$Res> {
-  __$AuthenticationModelCopyWithImpl(this._self, this._then);
+class __$UserModelCopyWithImpl<$Res> implements _$UserModelCopyWith<$Res> {
+  __$UserModelCopyWithImpl(this._self, this._then);
 
-  final _AuthenticationModel _self;
-  final $Res Function(_AuthenticationModel) _then;
+  final _UserModel _self;
+  final $Res Function(_UserModel) _then;
 
-  /// Create a copy of AuthenticationModel
+  /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -163,7 +158,7 @@ class __$AuthenticationModelCopyWithImpl<$Res>
     Object? token = null,
     Object? refreshToken = null,
   }) {
-    return _then(_AuthenticationModel(
+    return _then(_UserModel(
       token: null == token
           ? _self.token
           : token // ignore: cast_nullable_to_non_nullable
