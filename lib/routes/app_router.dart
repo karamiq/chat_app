@@ -1,5 +1,7 @@
 import 'package:app/entry_point.dart';
 import 'package:app/pages/auth/login_page.dart';
+import 'package:app/pages/auth/otp_page.dart';
+import 'package:app/pages/auth/user_info_page.dart';
 import 'package:app/pages/chats/chats_page.dart';
 import 'package:app/pages/home/home_page.dart';
 import 'package:app/pages/people/people_page.dart';
@@ -44,14 +46,35 @@ final appRouterProvider = GoRouter(
         ),
       ],
     ),
-
     GoRoute(
       path: Routes.login,
       name: Routes.login,
       builder: (context, state) => const LoginPage(),
     ),
+    GoRoute(
+      path: Routes.otp,
+      name: Routes.otp,
+      builder: (context, state) => OtpPage(
+        phoneNumber: state.extra as String,
+      ),
+    ),
+    GoRoute(
+      path: Routes.userInfo,
+      name: Routes.userInfo,
+      builder: (context, state) => UserInfoPage(),
+    ),
   ],
 );
+
+class Routes {
+  static const groups = '/';
+  static const login = '/login';
+  static const people = '/people';
+  static const chats = '/chats';
+  static const settings = '/settings';
+  static const otp = '/otp';
+  static const userInfo = '/user-info';
+}
 
 GoRoute _entryPointRouter({
   required String path,
@@ -68,13 +91,12 @@ GoRoute _entryPointRouter({
 
       _previousRoute = state.fullPath; // Update previous route
 
-      final beginOffset =
-          (currentIndex > previousIndex)
-              ? const Offset(1.0, 0.0) // Forward navigation (slide from right)
-              : const Offset(
-                -1.0,
-                0.0,
-              ); // Backward navigation (slide from left)
+      final beginOffset = (currentIndex > previousIndex)
+          ? const Offset(1.0, 0.0) // Forward navigation (slide from right)
+          : const Offset(
+              -1.0,
+              0.0,
+            ); // Backward navigation (slide from left)
 
       final endOffset = Offset.zero;
       final tween = Tween(
@@ -94,12 +116,4 @@ GoRoute _entryPointRouter({
       );
     },
   );
-}
-
-class Routes {
-  static const groups = '/';
-  static const login = '/login';
-  static const people = '/people';
-  static const chats = '/chats';
-  static const settings = '/settings';
 }

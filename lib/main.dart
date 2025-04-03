@@ -8,6 +8,7 @@ import 'package:app/core/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'routes/app_router.dart';
@@ -21,6 +22,11 @@ void main() async {
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2c2lia2JkbWJrbm1pYnpraHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzMjU0MTIsImV4cCI6MjA1ODkwMTQxMn0.cZMsbzRMqn6XTCQXAPCmaDfLg_finPD1_jUY3oOP0ck',
   );
+  // Initialize OneSignal
+
+  OneSignal.initialize('e56f868e-8b07-48c0-9b88-675a1d14a700');
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  await OneSignal.Notifications.requestPermission(true);
 
   runApp(
     ProviderScope(

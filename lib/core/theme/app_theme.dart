@@ -11,12 +11,14 @@ class AppTheme {
     final themeData = ThemeData(
       useMaterial3: false,
       brightness: brightness,
+
       extensions: [buildExtraColors(brightness)],
       inputDecorationTheme: _buildInputDecorationTheme(brightness),
       colorScheme: _buildColorScheme(brightness),
       filledButtonTheme: _buildFilledButtonTheme(brightness),
       outlinedButtonTheme: _buildOutlinedButtonTheme(brightness),
       textButtonTheme: _buildTextButtonTheme(brightness),
+      elevatedButtonTheme: _buildElevatedButtonTheme(brightness),
       //fontFamily: 'Tajawal',
       fontFamily: GoogleFonts.cairo().fontFamily,
       textTheme: _buildTextTheme(GoogleFonts.cairoTextTheme()),
@@ -84,7 +86,6 @@ class AppTheme {
   ColorScheme _buildColorScheme(Brightness brightness) {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: Colors.cyanAccent,
-
       brightness: brightness,
     );
 
@@ -123,6 +124,27 @@ class AppTheme {
       style: TextButton.styleFrom(
         padding: padding,
         shape: RoundedRectangleBorder(borderRadius: borderRadius),
+      ),
+    );
+  }
+
+  ElevatedButtonThemeData _buildElevatedButtonTheme(Brightness brightness) {
+    final colorScheme = _buildColorScheme(
+        brightness); // Assuming you have a _buildColorScheme function
+
+    return ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        textStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+        elevation: 0,
+        minimumSize: const Size(double.infinity, 50),
+        backgroundColor:
+            colorScheme.primary, // Use primary color from color scheme
+        foregroundColor: Colors.white, // White text color for foreground
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderSize.extraSmallRadius),
       ),
     );
   }

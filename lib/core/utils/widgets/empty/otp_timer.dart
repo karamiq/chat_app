@@ -4,13 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class OtpTimer extends StatefulWidget {
   final Duration duration;
-  final String iconAssetPath;
+  final String? iconAssetPath;
   final ValueChanged<bool> onTimerFinished;
 
   const OtpTimer({
     super.key,
     required this.duration,
-    required this.iconAssetPath,
+    this.iconAssetPath,
     required this.onTimerFinished,
   });
 
@@ -58,21 +58,23 @@ class _OtpTimerState extends State<OtpTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        SvgPicture.asset(
-          widget.iconAssetPath,
-          height: 22,
-          width: 22,
-          color:const Color(0xff757680),
-        ),
+        if (widget.iconAssetPath != null)
+          SvgPicture.asset(
+            widget.iconAssetPath!,
+            height: 100,
+            width: 100,
+            //   color: const Color(0xff757680),
+          ),
         const SizedBox(width: 8),
         Text(
           '$_timerSecondsRemaining',
           style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              color: Color(0xff757680)),
+            fontWeight: FontWeight.w500,
+            fontSize: 46,
+            //  color: Color(0xff757680)
+          ),
         ),
       ],
     );

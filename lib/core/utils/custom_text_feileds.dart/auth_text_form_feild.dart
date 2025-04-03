@@ -61,12 +61,12 @@ class AuthFormField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return TextFormField(
+      autofillHints: const [AutofillHints.telephoneNumber],
       readOnly: readOnly,
       onTap: onTap,
       controller: controller,
       focusNode: focusNode,
-      decoration:
-          decoration ??
+      decoration: decoration ??
           authDecoration(
             context,
             hintText: hintText,
@@ -78,8 +78,7 @@ class AuthFormField extends ConsumerWidget {
       validator: (value) => ValidatorX.validate(ref, value, rules),
       obscureText: obscureText,
       keyboardType: keyboardType,
-      textInputAction:
-          textInputAction ??
+      textInputAction: textInputAction ??
           (nextFocusNode != null ? TextInputAction.next : TextInputAction.done),
       enabled: enabled,
       autofocus: autofocus,

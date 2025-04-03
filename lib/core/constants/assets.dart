@@ -30,6 +30,10 @@ class Assets {
   /// assets/lottie/login_logo.json
   static const String assetsLottieLoginLogo = "assets/lottie/login_logo.json";
 
+  /// Assets for assetsLottieOtp
+  /// assets/lottie/otp.json
+  static const String assetsLottieOtp = "assets/lottie/otp.json";
+
   /// Assets for assetsSoundsBubbleSound
   /// assets/sounds/bubble-sound.mp3
   static const String assetsSoundsBubbleSound = "assets/sounds/bubble-sound.mp3";
@@ -41,6 +45,10 @@ class Assets {
   /// Assets for assetsSvgCamera
   /// assets/svg/camera.svg
   static const String assetsSvgCamera = "assets/svg/camera.svg";
+
+  /// Assets for assetsSvgCameraa
+  /// assets/svg/Cameraa.svg
+  static const String assetsSvgCameraa = "assets/svg/Cameraa.svg";
 
   /// Assets for assetsSvgNotification
   /// assets/svg/Notification.svg

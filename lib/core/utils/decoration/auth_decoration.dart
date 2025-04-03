@@ -11,6 +11,7 @@ InputDecoration authDecoration(
 }) {
   final gg = context.theme.colorScheme;
   return InputDecoration(
+    helperText: '',
     hintText: hintText,
     labelText: labelText,
     prefixIcon: prefixIcon,
