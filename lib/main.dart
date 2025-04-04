@@ -52,7 +52,7 @@ class MyApp extends ConsumerWidget {
       theme: theme.buildLightTheme(),
       darkTheme: theme.buildDarkTheme(),
       themeMode: settings.themeMode,
-      routerConfig: appRouterProvider,
+      routerConfig: ref.watch(appRouterProvider),
       onGenerateTitle: (context) => context.l10n.title,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: [

@@ -36,6 +36,6 @@ class Authentication extends _$Authentication {
 
   _clear() {
     pref.remove(Preferences.authentication);
-    appRouterProvider.go(Routes.login);
+    ref.read(appRouterProvider).go(Routes.login);
   }
 }

@@ -30,18 +30,17 @@ class _OtpPageState extends ConsumerState<OtpPage> {
     final loginState = ref.watch(loginProvider);
 
     Future<void> confirm() async {
-      context.goNamed(Routes.userInfo);
-      // await ref
-      //     .read(loginProvider.notifier)
-      //     // ignore: unused_result
-      //     .verifyOtp(widget.phoneNumber, otpController.text);
-      // loginState.when(
-      //     data: (data) => null,
-      //     loading: () => null,
-      //     error: (error, stackTrace) {
-      //       var e = error as AuthApiException;
-      //       setState(() => errorMessage = e.message);
-      //     });
+      await ref
+          .read(loginProvider.notifier)
+          // ignore: unused_result
+          .verifyOtp(widget.phoneNumber, otpController.text);
+      loginState.when(
+          data: (data) => null,
+          loading: () => null,
+          error: (error, stackTrace) {
+            var e = error as AuthApiException;
+            setState(() => errorMessage = e.message);
+          });
     }
 
     return Scaffold(
@@ -59,7 +58,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                 children: [
                   OtpTimer(
                       duration: Duration(seconds: 60),
-                      onTimerFinished: (val) {}),
+                      onTimerFinished: (val) => buttonEnabled = false),
                   const Text('Enter the 6-digit OTP sent to your phone number'),
                   Text(
                     widget.phoneNumber,
@@ -67,9 +66,6 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                   ),
                   const SizedBox(height: 20),
                   Pinput(
-                    onChanged: (value) => setState(() {
-                      buttonEnabled = value.isNotEmpty;
-                    }),
                     onCompleted: (value) => confirm(),
                     errorText: errorMessage,
                     length: 6,
@@ -136,7 +132,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                   ),
                   const SizedBox(height: 10),
                   LoadingButton(
-                      enabled: otpController.text.length == 6,
+                      enabled: otpController.text.length == 6 && buttonEnabled,
                       onPressed: confirm,
                       child: const Text('Verify OTP'))
                 ],

@@ -6,7 +6,12 @@ import 'package:app/pages/chats/chats_page.dart';
 import 'package:app/pages/home/home_page.dart';
 import 'package:app/pages/people/people_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+final appRouterProvider = Provider<GoRouter>((ref) {
+  return _appRouter;
+});
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'root',
@@ -19,7 +24,7 @@ final List<String> routeOrder = [Routes.groups, Routes.chats, Routes.people];
 
 String? _previousRoute;
 
-final appRouterProvider = GoRouter(
+final _appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: Routes.login,
   routes: <RouteBase>[
@@ -67,7 +72,8 @@ final appRouterProvider = GoRouter(
 );
 
 class Routes {
-  static const groups = '/';
+  static const home = '/home';
+  static const groups = '/groups';
   static const login = '/login';
   static const people = '/people';
   static const chats = '/chats';

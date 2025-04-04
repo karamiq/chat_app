@@ -1,3 +1,4 @@
+import 'package:app/core/settings/supabase_client.dart';
 import 'package:app/core/utils/custom_text_feileds.dart/auth_text_form_feild.dart';
 import 'package:app/core/utils/decoration/auth_decoration.dart';
 import 'package:app/core/utils/extentions.dart';
@@ -47,15 +48,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     super.dispose();
   }
 
-  void _pickCountry() {
-    showCountryPicker(
-      context: context,
-      onSelect: (Country country) {
-        setState(() => _selectedCountry = country);
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final loginState = ref.watch(loginProvider);
@@ -63,12 +55,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
           padding: Insets.mediumAll,
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               children: [
                 const Gap(40),
                 SizedBox(
@@ -76,7 +67,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   width: 180,
                   child: Lottie.asset(
                     Assets.assetsLottieLoginLogo,
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 const Text(
@@ -100,7 +91,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   children: [
                     Expanded(
                       child: TextField(
-                          onTap: _pickCountry,
+                          onTap: () => showCountryPicker(
+                                context: context,
+                                onSelect: (Country country) {
+                                  setState(() => _selectedCountry = country);
+                                },
+                              ),
                           readOnly: true,
                           controller: TextEditingController(
                             text:
@@ -141,17 +137,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
                 LoadingButton(
                   onPressed: () async {
-                    context.pushNamed(Routes.otp,
-                        extra:
-                            '+${_selectedCountry.phoneCode}${_phoneNumberController.text}');
                     if (_formKey.currentState!.validate()) {
                       final fullPhoneNumber =
                           '+${_selectedCountry.phoneCode}${_phoneNumberController.text}';
                       // ignore: unused_result
                       await auth.sendOtp(fullPhoneNumber);
-
                       loginState.when(
-                          data: (data) => null,
+                          data: (data) => {
+                                _errorMessage = null,
+                                context.pushNamed(Routes.otp,
+                                    extra:
+                                        '+${_selectedCountry.phoneCode}${_phoneNumberController.text}'),
+                              },
                           loading: () => null,
                           error: (error, stackTrace) {
                             var e = error as AuthApiException;
