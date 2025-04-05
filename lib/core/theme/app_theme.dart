@@ -11,7 +11,9 @@ class AppTheme {
     final themeData = ThemeData(
       useMaterial3: false,
       brightness: brightness,
-
+      scaffoldBackgroundColor: brightness == Brightness.light
+          ? const Color(0xffF5F5F5)
+          : const Color(0xff121212),
       extensions: [buildExtraColors(brightness)],
       inputDecorationTheme: _buildInputDecorationTheme(brightness),
       colorScheme: _buildColorScheme(brightness),
@@ -21,7 +23,9 @@ class AppTheme {
       elevatedButtonTheme: _buildElevatedButtonTheme(brightness),
       //fontFamily: 'Tajawal',
       fontFamily: GoogleFonts.cairo().fontFamily,
-      textTheme: _buildTextTheme(GoogleFonts.cairoTextTheme()),
+
+      //This effect the colors & them of the fonts when dark or light mode
+      //textTheme: _buildTextTheme(GoogleFonts.cairoTextTheme()),
     );
 
     return themeData;
@@ -85,7 +89,9 @@ class AppTheme {
 
   ColorScheme _buildColorScheme(Brightness brightness) {
     final colorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.cyanAccent,
+      // ignore: use_full_hex_values_for_flutter_colors
+      seedColor: Colors.blueAccent,
+
       brightness: brightness,
     );
 
@@ -111,10 +117,18 @@ class AppTheme {
   }
 
   OutlinedButtonThemeData _buildOutlinedButtonTheme(Brightness brightness) {
+    final colorScheme = _buildColorScheme(brightness);
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
+        minimumSize: const Size(double.infinity, 50),
         padding: padding,
-        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+        shape: RoundedRectangleBorder(
+            borderRadius: borderRadius,
+            side: BorderSide(width: 2, color: colorScheme.primary)),
+        side: BorderSide(
+          width: 1.5,
+          color: colorScheme.primary,
+        ),
       ),
     );
   }
@@ -129,20 +143,22 @@ class AppTheme {
   }
 
   ElevatedButtonThemeData _buildElevatedButtonTheme(Brightness brightness) {
-    final colorScheme = _buildColorScheme(
-        brightness); // Assuming you have a _buildColorScheme function
+    final colorScheme = _buildColorScheme(brightness);
 
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         textStyle: const TextStyle(
-          fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
         elevation: 0,
         minimumSize: const Size(double.infinity, 50),
+        disabledForegroundColor: colorScheme.onPrimary,
+        foregroundColor: colorScheme.onPrimary,
+        disabledBackgroundColor:
+            colorScheme.primary.withAlpha((0.5 * 255).toInt()),
         backgroundColor:
             colorScheme.primary, // Use primary color from color scheme
-        foregroundColor: Colors.white, // White text color for foreground
+
         shape:
             RoundedRectangleBorder(borderRadius: BorderSize.extraSmallRadius),
       ),

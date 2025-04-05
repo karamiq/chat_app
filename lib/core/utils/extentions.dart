@@ -10,10 +10,6 @@ extension DeviceWidth on BuildContext {
   double get width => MediaQuery.of(this).size.width;
 }
 
-extension ToggleTheme on BuildContext {
-  ThemeData get toggleTheme => Theme.of(this);
-}
-
 extension DateFormating on DateTime {
   String formateDate(String? local) =>
       DateFormat('yy/MM/dd', local).format(this);

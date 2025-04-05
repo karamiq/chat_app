@@ -4,10 +4,8 @@ import 'package:app/core/utils/validators/validators.dart';
 import 'package:app/core/utils/widgets/buttons/loading_button.dart';
 import 'package:app/core/utils/widgets/empty/otp_timer.dart';
 import 'package:app/data/providers/login_provider.dart';
-import 'package:app/routes/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -21,9 +19,11 @@ class OtpPage extends ConsumerStatefulWidget {
 }
 
 class _OtpPageState extends ConsumerState<OtpPage> {
+  final OtpTimerController _otpController = OtpTimerController();
   final otpController = TextEditingController();
   String? errorMessage;
   bool buttonEnabled = false;
+  bool isTimerExpired = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +35,22 @@ class _OtpPageState extends ConsumerState<OtpPage> {
           // ignore: unused_result
           .verifyOtp(widget.phoneNumber, otpController.text);
       loginState.when(
-          data: (data) => null,
-          loading: () => null,
-          error: (error, stackTrace) {
-            var e = error as AuthApiException;
-            setState(() => errorMessage = e.message);
-          });
+        data: (data) => null,
+        loading: () => null,
+        error: (error, stackTrace) {
+          var e = error as AuthApiException;
+          setState(() => errorMessage = e.message);
+        },
+      );
     }
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('OTP Verification'),
+        title: const Text(
+          'OTP Verification',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Center(
         child: Padding(
@@ -57,8 +61,13 @@ class _OtpPageState extends ConsumerState<OtpPage> {
               Column(
                 children: [
                   OtpTimer(
-                      duration: Duration(seconds: 60),
-                      onTimerFinished: (val) => buttonEnabled = false),
+                    controller: _otpController,
+                    duration: const Duration(seconds: 60),
+                    onTimerFinished: (val) => setState(() {
+                      buttonEnabled = false;
+                      isTimerExpired = true; // Update timer expired state
+                    }),
+                  ),
                   const Text('Enter the 6-digit OTP sent to your phone number'),
                   Text(
                     widget.phoneNumber,
@@ -66,75 +75,96 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                   ),
                   const SizedBox(height: 20),
                   Pinput(
-                    onCompleted: (value) => confirm(),
+                    onChanged: (value) {
+                      if (value.length == 6) {
+                        setState(() {
+                          errorMessage = null;
+                          buttonEnabled = true;
+                        });
+                      } else {
+                        setState(() {
+                          errorMessage = null;
+                          buttonEnabled = false;
+                        });
+                      }
+                    },
                     errorText: errorMessage,
                     length: 6,
                     validator: (otp) => ValidatorX.validate(
                         ref, otp, [RequiredRule(), MaxLengthRule(6)]),
                     controller: otpController,
+                    cursor: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 6),
+                          width: 24,
+                          height: 2,
+                          color: context.colorScheme.primary,
+                        ),
+                      ],
+                    ),
                     focusedPinTheme: PinTheme(
                       width: 60,
                       height: 60,
                       decoration: BoxDecoration(
-                          border: Border.all(
-                            color: context.colorScheme.primary,
-                          ),
-                          color: context.colorScheme.surface,
-                          borderRadius: BorderSize.smallRadius),
+                        border: Border.all(color: context.colorScheme.primary),
+                        color: context.colorScheme.surface,
+                        borderRadius: BorderSize.smallRadius,
+                      ),
                     ),
                     errorPinTheme: PinTheme(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 1, color: context.colorScheme.error),
-                            color: context.colorScheme.onInverseSurface,
-                            borderRadius: BorderSize.smallRadius)),
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1, color: context.colorScheme.error),
+                        color: context.colorScheme.onInverseSurface,
+                        borderRadius: BorderSize.smallRadius,
+                      ),
+                    ),
                     defaultPinTheme: PinTheme(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                            color: context.colorScheme.onInverseSurface,
-                            borderRadius: BorderSize.smallRadius)),
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: context.colorScheme.onInverseSurface,
+                        borderRadius: BorderSize.smallRadius,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  LoadingButton(
+                    enabled: otpController.text.length == 6 &&
+                        buttonEnabled &&
+                        !isTimerExpired, // Updated condition
+                    onPressed: confirm,
+                    child: const Text('Verify OTP'),
                   ),
                   const SizedBox(height: 20),
                   const Text(
                     'Didn\'t receive the OTP?',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                   ),
-                  const SizedBox(height: 10),
                   TextButton(
-                    onPressed: () {
-                      ref
-                          .read(loginProvider.notifier)
-                          // ignore: unused_result
-                          .sendOtp(widget.phoneNumber);
-                      loginState.when(
-                          data: (data) => null,
-                          loading: () => null,
-                          error: (error, stackTrace) {
-                            var e = error as AuthApiException;
-                            setState(() => errorMessage = e.message);
-                          });
-                      setState(() => errorMessage = null);
-                    },
-                    child: Text(
+                    onPressed: !isTimerExpired
+                        ? null
+                        : () {
+                            otpController.clear();
+                            // Resend OTP logic here if you want to trigger it
+                            // ref.read(loginProvider.notifier).sendOtp(widget.phoneNumber);
+
+                            setState(() {
+                              errorMessage = null;
+                              isTimerExpired = false;
+                            });
+
+                            // Reset the timer
+                            _otpController.reset();
+                          },
+                    child: const Text(
                       'Resend OTP',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.blue,
-                      ),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  LoadingButton(
-                      enabled: otpController.text.length == 6 && buttonEnabled,
-                      onPressed: confirm,
-                      child: const Text('Verify OTP'))
                 ],
               ),
               Container()

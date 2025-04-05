@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class LoadingButton extends StatelessWidget {
+class LoadingButton extends StatefulWidget {
   const LoadingButton({
     super.key,
     required this.child,
@@ -13,34 +13,34 @@ class LoadingButton extends StatelessWidget {
   final bool enabled;
 
   @override
-  Widget build(BuildContext context) {
-    ValueNotifier<bool> isLoading = ValueNotifier(false);
+  _LoadingButtonState createState() => _LoadingButtonState();
+}
 
+class _LoadingButtonState extends State<LoadingButton> {
+  bool isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: !enabled
+      onPressed: !widget.enabled || isLoading
           ? null
           : () async {
-              if (onPressed == null) return;
-
-              isLoading.value = true;
-              await onPressed!(); // Wait for the function to complete
-              isLoading.value = false;
+              if (widget.onPressed == null) return;
+              setState(() {
+                isLoading = true;
+              });
+              await widget.onPressed!();
+              setState(() {
+                isLoading = false;
+              });
             },
-      child: ValueListenableBuilder<bool>(
-        valueListenable: isLoading,
-        builder: (_, value, __) {
-          return value
-              ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    color: Colors.white,
-                  ),
-                )
-              : child;
-        },
-      ),
+      child: isLoading
+          ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(),
+            )
+          : widget.child,
     );
   }
 }
