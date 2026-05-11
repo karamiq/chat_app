@@ -1,0 +1,66 @@
+@host = http://localhost:3000
+@graphql = {{host}}/graphql
+@email = test@example.com
+
+### Public query (sanity check)
+POST {{graphql}}
+Content-Type: application/json
+
+{
+  "query": "query { meow }"
+}
+
+### Register (sets HttpOnly cookies: access_token + refresh_token)
+# @name register
+POST {{graphql}}
+Content-Type: application/json
+
+{
+  "query": "mutation Register($input: RegisterDto!) { register(input: $input) { user { id fullname email avatar } accessToken refreshToken } }",
+  "variables": {
+    "input": {
+      "fullname": "Test User",
+      "email": "{{email}}",
+      "password": "password123",
+      "confirmPassword": "password123"
+    }
+  }
+}
+
+### Login (sets HttpOnly cookies: access_token + refresh_token)
+# @name login
+POST {{graphql}}
+Content-Type: application/json
+
+{
+  "query": "mutation Login($input: LoginDto!) { login(input: $input) { user { id fullname email avatar } accessToken refreshToken } }",
+  "variables": {
+    "input": {
+      "email": "{{email}}",
+      "password": "password123"
+    }
+  }
+}
+
+### Authenticated mutation (requires the cookies from Register/Login)
+# If your client does NOT automatically remember cookies, copy the `Set-Cookie`
+# values from the Login/Register response headers and paste them below as `Cookie:`.
+#
+# Cookie: access_token=...; refresh_token=...
+POST {{graphql}}
+Content-Type: application/json
+
+{
+  "query": "mutation UpdateProfile($fullname: String!) { updateProfile(fullname: $fullname) { id fullname email avatar } }",
+  "variables": {
+    "fullname": "Updated Name"
+  }
+}
+
+### Refresh access token (requires refresh_token cookie)
+POST {{graphql}}
+Content-Type: application/json
+
+{
+  "query": "mutation { refreshToken }"
+}

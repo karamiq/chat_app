@@ -1,0 +1,36 @@
+# OS / Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Node
+node_modules/
+
+# Build outputs
+/dist/
+/build/
+coverage/
+*.tsbuildinfo
+
+# Env files
+.env
+.env.*
+
+# Vite
+frontend/dist/
+
+# NestJS
+backend/dist/
+backend/coverage/
+
+# Prisma generated client + engines (regenerate via `prisma generate`)
+backend/generated/
+
+# Docker local overrides
+**/docker-compose.override.yml

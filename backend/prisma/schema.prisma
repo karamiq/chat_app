@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+model User {
+  id        Int      @id @default(autoincrement())
+  fullname  String
+  avatar    String?
+  email     String   @unique
+  password  String
+  chatRooms ChatRoom[] @relation("UserChatRooms")
+  messages  Message[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ChatRoom {
+  id        Int      @id @default(autoincrement())
+  name      String
+  users     User[]   @relation("UserChatRooms")
+  messages  Message[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  imageUrl String?
+  userId    Int
+  chatRoomId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatRoom  ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
